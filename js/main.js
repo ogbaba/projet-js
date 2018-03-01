@@ -68,12 +68,19 @@ function montrerListeAvis () {
 	$("#contenu").empty();
 	for (i in data)
 	{
-	    console.log(data);
-	    $("#contenu").append("<div class=\"reviewdansliste\"> <p><span class=\"nom\">" + data[i].auteur
+	    $("#contenu").prepend("<div class=\"reviewdansliste\"> <p><span class=\"nom\">" + data[i].auteur
 				 + "</span> : " + data[i].titre 
 				 + " - <a href=\"#\" onclick=\"montrerAvis("
 				 + data[i].id +");\">Montrer</a></p></div>");
+	    
 	}
+	
+	$("#contenu div").each(function(i) {
+	    if (i % 2 == 0) {
+		console.log(i);
+		$(this).css({ "background-color" : "AliceBlue" });
+	    } 
+	});
     });
 }
 
