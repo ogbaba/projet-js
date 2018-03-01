@@ -1,20 +1,9 @@
 $(document).ready(function() {
     $(document).ready(function () {
-	$.ajax({
-	    url:'/php/est_connecte.php'
-        })
-            .done(function (data) {
-                if(data.est_connecte){
-                    $('#deconnexion').show();
-                }
-                else{
-                    $('#connexion').show();
-                }
-
-            }).fail(erreurCritique);
-
-	montrerListeArticles();
-	
+	mode = "liste";
+	verifConnecte();
+	montrerListeAvis();
+	ajouterAvis();
         $('#connexion').submit(function () {
             $.ajax({
                 url:$(this).attr('action'),
@@ -57,21 +46,22 @@ function erreurCritique () {
     }
 }
 
-function montrerArticle (id) {
+function montrerAvis (id) {
     $.ajax({
 	url:'/php/un_avis.php',
 	data: { "id" : id },
 	method: "POST"
     }).done(function (data) {
 	$("#contenu").empty();
-	$("#contenu").append("<div class=\"review\"> <b>" + data.titre + " par " +
-			     data.auteur + "</b><br/><p>" + data.texte + "</p></div>");
-	$("#contenu").append("<button onclick=\"montrerListeArticles();\">Retour</button>");
+	$("#contenu").append("<div class=\"review\"> <b>" + data.titre
+			     + "</b> par <span class=\"nom\">" + data.auteur
+			     + "</span><br/><p>" + data.texte 
+			     + "</p><button onclick=\"montrerListeAvis();\">Retour</button></div>");
 	
     });
 }
 
-function montrerListeArticles () {
+function montrerListeAvis () {
     $.ajax({
 	url:'/php/avis.php'
     }).done(function (data) {
@@ -79,10 +69,47 @@ function montrerListeArticles () {
 	for (i in data)
 	{
 	    console.log(data);
-	    $("#contenu").append("<div class=\"reviewdansliste\"> <p>" + data[i].auteur + " : " +
-				 data[i].titre + "</p>" +
-				 "<a href=\"#\" onclick=\"montrerArticle("+
-				 data[i].id +");\">Montri</a></div>");
+	    $("#contenu").append("<div class=\"reviewdansliste\"> <p><span class=\"nom\">" + data[i].auteur
+				 + "</span> : " + data[i].titre 
+				 + " - <a href=\"#\" onclick=\"montrerAvis("
+				 + data[i].id +");\">Montrer</a></p></div>");
 	}
+    });
+}
+
+
+function verifConnecte() {
+    $.ajax({
+	url:'/php/est_connecte.php'
+    })
+        .done(function (data) {
+            if(data.est_connecte){
+	        $('#deconnexion').show();
+		$('#ajouter').show();
+            }
+            else{
+	        $('#connexion').show();
+            }
+        }).fail(erreurCritique);
+}
+
+
+function ajouterAvis() {
+    $.ajax({
+	url:'/php/ajout_avis.php'
+    })
+    $('#ajouter').submit(function () {
+        $.ajax({
+            url:"php/ajout_avis.php",
+            method: "POST",
+            data: $(this).serialize()
+        }).done(function () {
+	    $("#ajouter textarea, #ajouter input")
+		.not(':button')
+		.val('');
+	    montrerListeAvis();
+        })
+            .fail(erreurCritique);
+        return false;
     });
 }

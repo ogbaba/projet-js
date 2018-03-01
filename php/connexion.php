@@ -12,6 +12,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     {
 	$resultat->est_connecte = true;
     	$_SESSION['id_user'] = true;
+        $_SESSION['username'] = $_POST['username'];
     }
 }
 else {

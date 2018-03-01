@@ -1,12 +1,5 @@
 <?php
-
-class MaBD extends SQLite3
-{
-    function __construct()
-    {
-        $this->open ("../bd.sqlite");
-    }
-}
+require 'bd.php';
 $bd = new MaBD();
 $result = $bd->query ("SELECT * FROM REVIEWS");
 $tout = array();
