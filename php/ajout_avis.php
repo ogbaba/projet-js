@@ -5,10 +5,12 @@ if (!isset($_SESSION["id_user"])) {
     return;
 }
 
-if (isset($_POST['titre']) && isset($_POST['texte'])) {
+if (isset($_POST['titre']) && isset($_POST['texte']) && isset($_POST['bien'])) {
     $bd = new MaBD();
-    $bd->exec("INSERT INTO REVIEWS (titre, texte, auteur) VALUES ('"
+    error_log($_POST['bien']);
+    $bd->exec("INSERT INTO REVIEWS (titre, texte, auteur, bien) VALUES ('"
     . SQLite3::escapeString($_POST['titre'])."','"
     . SQLite3::escapeString($_POST['texte'])."','"
-    . SQLite3::escapeString($_SESSION['username'])."')");
+    . SQLite3::escapeString($_SESSION['username'])."', "
+    . SQLite3::escapeString($_POST['bien'])." )");
 }

@@ -57,7 +57,11 @@ function montrerAvis (id) {
 			     + "</b> par <span class=\"nom\">" + data.auteur
 			     + "</span><br/><p>" + data.texte 
 			     + "</p><button onclick=\"montrerListeAvis();\">Retour</button></div>");
-	
+	$(".review").css({
+	    "background-color" : (data.bien ?
+				  "rgba(0,200,0,0.1)" :
+				  "rgba(200,0,0,0.1)")
+	});
     });
 }
 
@@ -66,18 +70,21 @@ function montrerListeAvis () {
 	url:'/php/avis.php'
     }).done(function (data) {
 	$("#contenu").empty();
+	var bien = "<img src=\"img/bien.png\" alt=\"Bien\">";
+	var pasbien = "<img src=\"img/pasbien.png\" alt=\"Pas bien\">";
 	for (i in data)
 	{
-	    $("#contenu").prepend("<div class=\"reviewdansliste\"> <p><span class=\"nom\">" + data[i].auteur
+	    let texte = "<div class=\"reviewdansliste\"> <p><span class=\"nom\">" + data[i].auteur
 				 + "</span> : " + data[i].titre 
 				 + " - <a href=\"#\" onclick=\"montrerAvis("
-				 + data[i].id +");\">Montrer</a></p></div>");
+		+ data[i].id +");\">Montrer</a></p>"
+		+ (data[i].bien ? bien : pasbien) + "</div>";
 	    
+	    $("#contenu").prepend(texte);
 	}
 	
 	$("#contenu div").each(function(i) {
 	    if (i % 2 == 0) {
-		console.log(i);
 		$(this).css({ "background-color" : "AliceBlue" });
 	    } 
 	});
@@ -113,6 +120,7 @@ function ajouterAvis() {
         }).done(function () {
 	    $("#ajouter textarea, #ajouter input")
 		.not(':button')
+		.not('input[type="radio"]')
 		.val('');
 	    montrerListeAvis();
         })

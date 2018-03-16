@@ -9,7 +9,7 @@ while ($res = $result->fetchArray()){
       $tout[$i]['id'] = $res['id'];
       $tout[$i]['auteur'] = $res['auteur'];
       $tout[$i]['titre'] = $res['titre'];
-      $tout[$i]['texte'] = $res['texte'];
+      $tout[$i]['bien'] = $res['bien'];
       $i++;
 }
 
