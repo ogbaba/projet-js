@@ -53,6 +53,7 @@ function montrerAvis (id) {
 	method: "POST"
     }).done(function (data) {
 	$("#contenu").empty();
+	$("#ajouter").hide();
 	$("#contenu").append("<div class=\"review\"> <b>" + data.titre
 			     + "</b> par <span class=\"nom\">" + data.auteur
 			     + "</span><br/><p>" + data.texte 
@@ -70,15 +71,18 @@ function montrerListeAvis () {
 	url:'/php/avis.php'
     }).done(function (data) {
 	$("#contenu").empty();
+	$("#ajouter").show();
 	var bien = "<img src=\"img/bien.png\" alt=\"Bien\">";
 	var pasbien = "<img src=\"img/pasbien.png\" alt=\"Pas bien\">";
 	for (i in data)
 	{
-	    let texte = "<div class=\"reviewdansliste\"> <p><span class=\"nom\">" + data[i].auteur
-				 + "</span> : " + data[i].titre 
-				 + " - <a href=\"#\" onclick=\"montrerAvis("
-		+ data[i].id +");\">Montrer</a></p>"
-		+ (data[i].bien ? bien : pasbien) + "</div>";
+	    let texte = "<div class=\"reviewdansliste\">"
+		+ (data[i].bien ? bien : pasbien)
+		+ "<p><span class=\"nom\">" + data[i].auteur
+		+ "</span> : " 
+		+ "<a href=\"#\" onclick=\"montrerAvis("
+		+ data[i].id +");\">" + data[i].titre + "</p></div>"
+
 	    
 	    $("#contenu").prepend(texte);
 	}
