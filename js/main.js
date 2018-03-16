@@ -71,7 +71,7 @@ function montrerListeAvis () {
 	url:'/php/avis.php'
     }).done(function (data) {
 	$("#contenu").empty();
-	$("#ajouter").show();
+	verifConnecte();
 	var bien = "<img src=\"img/bien.png\" alt=\"Bien\">";
 	var pasbien = "<img src=\"img/pasbien.png\" alt=\"Pas bien\">";
 	for (i in data)
