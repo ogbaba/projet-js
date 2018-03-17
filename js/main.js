@@ -1,41 +1,40 @@
-$(document).ready(function() {
-    $(document).ready(function () {
-	mode = "liste";
-	verifConnecte();
-	montrerListeAvis();
-	ajouterAvis();
-        $('#connexion').submit(function () {
-            $.ajax({
-                url:$(this).attr('action'),
-                method: $(this).attr('method'),
-                data:$(this).serialize()
+$(document).ready(function () {
+    mode = "liste";
+    verifConnecte();
+    montrerListeAvis();
+    ajouterAvis();
+    $('#connexion').submit(function () {
+        $.ajax({
+            url:$(this).attr('action'),
+            method: $(this).attr('method'),
+            data:$(this).serialize()
+        })
+            .done(function (data) {
+                console.log('data=' , data);
+                if (data.est_connecte === true){
+                    window.location.reload(true);
+                }
+                else{
+
+                }
+
             })
-                .done(function (data) {
-                    console.log('data=' , data);
-                    if (data.est_connecte === true){
-                        window.location.reload(true);
-                    }
-                    else{
-
-                    }
-
-                })
-                .fail(erreurCritique);
-            return false;
-        });
-        $('#deconnexion').submit(function () {
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                data: $(this).serialize()
-            }).done(function () {
-                window.location.reload(true);
-            }).fail(erreurCritique);
-            return false;
-        });
-
+            .fail(erreurCritique);
+        return false;
     });
+    $('#deconnexion').submit(function () {
+        $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: $(this).serialize()
+        }).done(function () {
+            window.location.reload(true);
+        }).fail(erreurCritique);
+        return false;
+    });
+
 });
+
 
 function erreurCritique () {
     "use strict";
