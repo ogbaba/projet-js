@@ -112,9 +112,6 @@ function verifConnecte() {
 
 
 function ajouterAvis() {
-    $.ajax({
-	url:'/php/ajout_avis.php'
-    })
     $('#ajouter').submit(function () {
         $.ajax({
             url:"php/ajout_avis.php",
